@@ -18,7 +18,7 @@ where
     pub(crate) fn new(bb: Rect<T>) -> Self {
         QuadTreeNode {
             bb: bb,
-            children: Vec::new(),
+            children: Vec::with_capacity(4),
             data: SmallVec::new(),
         }
     }
