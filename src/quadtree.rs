@@ -66,10 +66,11 @@ where
     }
 
     /// # Summary
-    /// Attempts to insert an element of DataT, returning it to the caller if its bounding box does not fit inside the QuadTree.
+    /// Attempts to insert an element of type `DataT`, returning an `Ok(&mut DataT)` if successful,
+    /// or an `Err(DataT)` if the element's bounding box does not fit inside the `QuadTree`'s top level bounding box.
     ///
     /// # Parameters
-    /// * `data` - An element of DataT
+    /// * `data` - An element of type `DataT`
     ///
     /// # Examples
     /// ```ignore
@@ -82,22 +83,23 @@ where
     ///     h: 512,
     /// };
     /// let qt = QuadTree::new(bounding_box);
-    /// if let Some(foo_unused) = qt.try_insert(foo) {
-    ///     println!("Unable to insert element foo!");
+    /// match qt.try_insert(foo) {
+    ///     Ok(inserted) => *inserted.bar += 1, // Mutable reference to the inserted element
+    ///     Err(unused) => println!("Unable to insert element {:?}", unused), // Moved original element
     /// }
     /// ```
-    pub fn try_insert(&mut self, data: DataT) -> Option<DataT> {
+    pub fn try_insert(&mut self, data: DataT) -> Result<&mut DataT, DataT> {
         let index = self.storage.push(data);
         unsafe {
             let bb = self.storage.get_unchecked(index).get_bounding_box();
-            if let Some(unused) =
+            if let Some(unused_index) =
                 self.root
                     .try_insert::<DataT, SPLIT_LIMIT>(&bb, &self.storage, index)
             {
-                return self.storage.remove(unused);
+                return Err(self.storage.remove(unused_index).unwrap());
             }
 
-            return None;
+            return Ok(&mut self.storage[index]);
         }
     }
 }
