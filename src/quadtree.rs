@@ -1,10 +1,10 @@
-pub mod data;
-pub mod node;
-use data::QuadTreeData;
-use node::QuadTreeNode;
+mod data;
+mod node;
 
-use crate::bounding::{BoundingNumber, BoxBounded};
-use crate::rect::Rect;
+pub use crate::bounding::{BoundingNumber, BoxBounded};
+pub use crate::rect::Rect;
+pub use data::QuadTreeData;
+pub use node::QuadTreeNode;
 
 use stable_vec::StableVec;
 
