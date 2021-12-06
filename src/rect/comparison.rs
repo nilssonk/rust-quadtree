@@ -14,7 +14,7 @@ impl<T> std::cmp::Eq for Rect<T> where T: Eq {}
 
 impl<T> Rect<T>
 where
-    T: BoundingNumber<T>,
+    T: BoundingNumber,
 {
     pub fn fits_inside(&self, other: &Rect<T>) -> bool {
         self.x >= other.x

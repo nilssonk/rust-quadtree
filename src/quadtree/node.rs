@@ -13,7 +13,7 @@ pub struct QuadTreeNode<T> {
 
 impl<T> QuadTreeNode<T>
 where
-    T: BoundingNumber<T>,
+    T: BoundingNumber,
 {
     pub(crate) fn new(bb: Rect<T>) -> Self {
         QuadTreeNode {
@@ -37,7 +37,7 @@ where
 
 impl<T> BoxBounded<T> for QuadTreeNode<T>
 where
-    T: BoundingNumber<T>,
+    T: BoundingNumber,
 {
     fn get_bounding_box(&self) -> Rect<T> {
         return self.bb;
@@ -46,12 +46,13 @@ where
 
 impl<T> QuadTreeNode<T>
 where
-    T: BoundingNumber<T>,
+    T: BoundingNumber,
 {
     fn split(&mut self) {
+        let two: T = T::from_u8(2).unwrap();
         let bb = &self.bb;
-        let half_w = bb.w / T::from(2);
-        let half_h = bb.h / T::from(2);
+        let half_w = bb.w / two;
+        let half_h = bb.h / two;
         let top_left = Rect {
             x: bb.x,
             y: bb.y,
