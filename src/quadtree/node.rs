@@ -113,7 +113,7 @@ where
     where
         DataT: BoxBounded<T>,
     {
-        if !bb.fits_inside(&self.bb) {
+        if bb >= &self.bb {
             return Some(index);
         }
 
