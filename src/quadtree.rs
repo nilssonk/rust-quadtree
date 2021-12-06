@@ -29,10 +29,10 @@ where
     DataT: BoxBounded<T>,
 {
     /// # Summary
-    /// Constructs a new QuadTree.
+    /// Constructs a new `QuadTree`.
     ///
     /// # Parameters
-    /// * `bounding_box` - An Axis-Aligned Bounding Box (Rect\<T>) that describes the extent of the QuadTree.
+    /// * `bounding_box` - An Axis-Aligned Bounding Box (in the form of a `Rect<T>`) that describes the full extent of the QuadTree.
     ///
     /// # Examples
     /// ```ignore
@@ -52,16 +52,13 @@ where
     }
 
     /// # Summary
-    /// Applies a visitor function recursively to each node in the QuadTree.
+    /// Recursively applies a visitor function to each node in the `QuadTree`.
     ///
     /// Note: For each internal node, the children are visited in geometrically clockwise order starting with top-left (lowest x and y).
     ///
     /// # Parameters
-    /// * `f` - Visitor function to apply recursively. Must implement FnMut(&QuadTreeNode<T>, &StableVec<DataT>).
-    pub fn visit<F>(&self, f: F)
-    where
-        F: FnMut(QuadTreeData<T, DataT>),
-    {
+    /// * `f` - Visitor function which implements `FnMut(QuadTreeData<T, DataT>)`.
+    pub fn visit(&self, f: impl FnMut(QuadTreeData<T, DataT>)) {
         self.root.visit(&self.storage, f);
     }
 
