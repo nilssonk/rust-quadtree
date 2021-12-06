@@ -25,7 +25,7 @@ pub struct QuadTree<T, DataT, const SPLIT_LIMIT: usize> {
 
 impl<T, DataT, const SPLIT_LIMIT: usize> QuadTree<T, DataT, SPLIT_LIMIT>
 where
-    T: BoundingNumber<T>,
+    T: BoundingNumber,
     DataT: BoxBounded<T>,
 {
     /// # Summary
